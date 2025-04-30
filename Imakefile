@@ -3,4 +3,4 @@ LOCAL_LIBRARIES=$(XLIB)
 SRCS=heliwm.c winops.c config.c
 OBJS=heliwm.o winops.o config.o
 ComplexProgramTarget(heliwm)
-InstallNamedNonExec(heliwmrc,heliwmrc,/usr/X11R6/lib/X11/heliwm)
+InstallNamedNonExec(heliwmrc,heliwmrc,$(LIBDIR)/X11/heliwm)
