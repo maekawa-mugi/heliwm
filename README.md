@@ -1,4 +1,4 @@
-Heliwm - Highly Essential Light Itsy-bitsy Window Manager for X
+# Heliwm - Highly Essential Light Itsy-bitsy Window Manager for X
 
 Copyright (C) 2000-2006 Hidetoshi Ohtomo
 
@@ -17,7 +17,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
 USA, or by accessing http://www.gnu.org/copyleft/gpl.html.
 
 
-- Design Goal
+## Design Goal
 
 Heliwm is designed and developed to be one of the smallest and
 lightest window managers in the world of X Window System.  I believe
@@ -25,12 +25,12 @@ that saving memory and CPU time contributes to less electricity
 consumption, thus saving natural resources.
 
 
-- Installation Procedure
+## Installation Procedure
 
 1. Check DEFINES in Imakefile and modify it when necessary.  There are
-   seven compile time options: FRAME, RCPARSER, SHAPE, NLS, MAXIMIZE,
-   REORDER, VERBOSE.
-
+   seven compile time options: `FRAME, RCPARSER, SHAPE, NLS, MAXIMIZE,
+   REORDER, VERBOSE`.
+```
 	FRAME - add frame drawing routine.  Without FRAME, smaller and
 		lighter "alpha particle" version will be produced.
 	RCPARSER - add configuration file (heliwmrc) parser.  Without
@@ -53,45 +53,47 @@ consumption, thus saving natural resources.
 		compile heliwm with this option for distribution
 		purposes, because I don't want this fat version being
 		spread over the world.
-
+```
    Prepend each option with "-D".  For example, if you want FRAME and
    MAXIMIZE, the line should be "DEFINES=-DFRAME -DMAXIMIZE".  Note
    that the order is not important.
 
-2. Run "xmkmf".
-3. Run "make".
-4. Run "make install; make install.man" as root.
+2. Run `xmkmf`.
+3. Run `make`.
+4. Run `make install; make install.man` as root.
 
 Here is a little quicker way:
 
-1. Run "xmkmf".
-2. Run "make 'DEFINES=-DRCPARSER -DFRAME -DMAXIMIZE'" or something
+1. Run `xmkmf`.
+2. Run `make 'DEFINES=-DRCPARSER -DFRAME -DMAXIMIZE'` or something
    similar.
-3. Run "make install; make install.man" as root.
+3. Run `make install; make install.man` as root.
 
 
-- Configuration
+## Configuration
 
 Read the man page for available configuration options.  Default key
-bindings, which are specified in /usr/X11R6/lib/X11/heliwm/heliwmrc,
+bindings, which are specified in `/usr/X11R6/lib/X11/heliwm/heliwmrc`,
 are as follows:
 
- Alt-Tab	warp pointer to next window in heliwm's list
- Alt-Shift-Tab	warp pointer to previous window in the list
- Alt-F1		bring a window to top of the window management list
- Alt-F2		raise
- Alt-F3		lower
- Alt-F4		delete
- Alt-F7		move
- Alt-F8		resize
- Alt-F9		iconify
- Alt-F10	maximize/unmaximize
- Alt-F11	maximize/unmaximize horizontally
- Alt-F12	maximize/unmaximize vertically
- Control-Shift-Escape	terminate
+| Keybindings | Behavior |
+| ---- | ---- |
+| Alt-Tab | warp pointer to next window in heliwm's list |
+| Alt-Shift-Tab | warp pointer to previous window in the list |
+| Alt-F1 | bring a window to top of the window management list |
+| Alt-F2 | raise |
+| Alt-F3 | lower |
+| Alt-F4 | delete |
+| Alt-F7 | move |
+| Alt-F8 | resize |
+| Alt-F9 | iconify |
+| Alt-F10 | maximize/unmaximize |
+| Alt-F11 | maximize/unmaximize horizontally |
+| Alt-F12 | maximize/unmaximize vertically |
+| Control-Shift-Escape | terminate |
 
 
-- Bug Fixes and Patches
+## Bug Fixes and Patches
 
 If you find a bug, a problem, or a way to make the program lighter
 and/or improved, or there is a feature which you want me to add,
@@ -105,6 +107,6 @@ You can check the version of yours by running heliwm with "-v" option.
 
 At last but not least, please don't hesitate to send me your comments.
 
---
+----
 May this planet continue to be earth as long as possible,
 Hidetoshi Ohtomo <hok@lab.rim.or.jp>
