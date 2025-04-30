@@ -1,0 +1,399 @@
+.\" Man page for heliwm
+.\" Copyright (C) 2000-2006 Hidetoshi Ohtomo
+.TH heliwm 1 "Version 1.13"
+.SH NAME
+Heliwm \- Highly Essential Light Itsy-bitsy Window Manager
+.SH SYNOPSIS
+heliwm [ \-d \fIdisplay\fP ] [ \-f \fIfilename\fP ] [ \-v ]
+.SH DESCRIPTION
+.I Heliwm
+is one of the smallest window manager for X Window System.  Its design goal is
+minimum consumption of memory and CPU time for saving natural resources, so it
+provides nothing more than basic window operations.  They include window moving,
+resizing, iconifying, raising, lowering and change of the keyboard focus.
+Window maximizing operation, frame drawing and a few other things are optional.
+No menus, gorgeous look, virtual screens, etc.
+
+All window manipulations can be done with a keyboard.  The idea, that they can
+be done without using a pointing device, is inherited from Robert
+Nation's \fIfvwm\fP(1).  Thank you, Rob.
+
+Heliwm
+was named after the second smallest element, helium.  I wanted to name it after
+the smallest one, but the name hydrogen doesn't end with "-um," as you may see,
+so I selected the name.
+
+.SH OPTIONS
+
+.TP 4
+\-d \fIdisplay\fP
+Specify X server to use.
+
+.TP 4
+\-f \fIfilename\fP
+Specify non-default configuration file to use.  This option doesn't work as
+expected without RCPARSER compile time option (see below).
+
+.TP 4
+\-v
+Print version number along with compile time options and exit.
+
+.SH COMPILE TIME OPTIONS
+There are several compile time options, each of which increases the binary size.
+
+.IP FRAME
+If heliwm is compiled without this option, it is called
+.I alpha particle
+version.  It doesn't decorate client windows with frames, in order to save even more
+resources.
+
+.IP RCPARSER
+Configuration file parsing capability.  Without this option, heliwm can only
+use its hard-coded configuration information.
+
+.IP NLS
+Native language system support.
+In order to use character sets other than ISO-8859-1 for window and icon
+titles, set environmental variable
+.I LANG
+to the name of your locale (e.g.,
+.I ja_JP
+for Japanese).  Ensure that
+.I f
+option in your configuration file has a comma-separated list of required fonts.
+If you don't know which fonts are required, run heliwm with
+.I fixed
+specified for the
+.I f
+option and it will report missing character sets, if any.  Use
+\fIxlsfonts\fP(1) to look for fonts for each character set.
+
+.IP SHAPE
+X non-rectangular window shape extension support.  Clients such as
+\fIoclock\fP(1) and \fIxeyes\fP(1) are written using the extension, but can be
+run without it.  Some non-rectangular windows generate many X events upon
+exposure, and can be a burden to CPU, so avoid using them as much as possible.
+Alpha particle version doesn't need this option, since it displays
+non-rectangular windows as they are.
+
+.IP MAXIMIZE
+Optional window maximizing feature.
+
+.IP REORDER
+Optional window list reordering feature.  Heliwm manages windows in its
+internal list, and by using this feature, it is possible to reorder this list.
+For details, see "reorder" in OPERATIONS section below.
+
+.SH CONFIGURATION
+When heliwm is compiled with RCPARSER option, a configuration file is read upon
+startup.  Three configuration file paths are checked in following order: one
+specified with
+.I \-f
+option, \fI~/.heliwmrc\fP,
+system default configuration file.  The one which heliwm finds first is used.
+If none of the three is
+available, or heliwm is compiled without RCPARSER, built-in values are used.
+
+Configuration file format is quite strict, and all invalid lines are silently
+ignored.  First of all, a line must start with an option key, which is an
+alphabet letter.  Some of them require a sub-key, which must be the second
+character on the line.  Keys and sub-keys are case-sensitive.  Each word is
+separated by exactly one character, which may be a space or a tab.  Take a look
+at the default configuration file for an example.
+
+If there is a syntax error in the file, heliwm print out an error message and exit.
+Look for it if heliwm doesn't seem running.
+
+Because heliwm treats a line starting with a hash mark ("#") as an "invalid"
+line and silently ignores it, comments can be added using a hash as the first
+character on a line.
+
+Here is a list of available customization options:
+.IP "c\fIS color_name\fP"
+Specify color to use.
+.I S
+here is one of following sub-keys: t, f, b, u, l, a.  They correspond to colors
+of text, frame, border (of icons and indicator window), upper-left shade of
+frame, lower-right shade of frame, and band, respectively.
+
+Text color is used for window title text, and band color is used for a
+move/resize band.  You may need to choose a color for the latter, so that it is
+in a good contrast with most part of your screen, or you may find the band hard
+to see.
+
+Border color is used to draw border lines around icons and the indicator
+window.
+
+Frame, upper-left and lower-right shade colors are used to draw frame around
+client windows.  If you want a pseudo 3D look, specify a color darker than
+frame for lower-right shade, and a color brighter than frame for upper-left
+shade, for example.  Alpha particle version ignores these colors, since it
+doesn't draw frames.
+
+Use \fIshowrgb\fP(1) to find what color names are available.
+.IP "w\fIS\fP \fIwidth\fP"
+Specify frame width in integer.
+.I S
+is either
+.I f
+for frame, or
+.I b
+for border of icons and the indicator window.  Alpha particle version ignores
+the former.
+.IP "f \fIfont_name\fP"
+Specify font for window and icon titles.  They are written in
+"text" color, specified with
+.I ct
+option.
+.IP "C \fIcursor_number\fP"
+Specify cursor to use.  Cursor number can be obtained from
+<X11/cursorfont.h>.  To preview cursor shapes, use \fIxfd\fP(1) with
+\fI-fn cursor\fP option.
+.IP "k\fIS modifier key\fP"
+Specify window manipulation key.
+.I S
+here is one of operation sub-keys: \fIm\fP, \fIr\fP, \fIi\fP, \fIn\fP, \fIp\fP,
+\fIa\fP, \fIl\fP, \fId\fP, \fIt\fP, \fIx\fP, \fIh\fP, \fIv\fP, \fIo\fP.  See
+section OPERATIONS for details.
+.I Modifier
+is the sum of one or more integers representing modifier keys.  See section
+MODIFIERS for details.
+.I Key
+is one of the key names in <X11/keysymdef.h>, with the prefix XK_ removed.
+.IP "b\fIS modifier button\fP"
+Specify window manipulation button.
+.I S
+and
+.I modifier
+are the same as those for key option.
+.I Button
+is mouse button number: 1 through 5.
+.IP "o \fIother_option\fP"
+Specify other options.  There are eight of them, and a number is assigned to
+each.  Pick up options you want and add their numbers, or specify 0 if you want
+none of them.
+.RS
+.IP 1 4
+Set keyboard focus to a window when it is raised.
+.IP 2 4
+Set keyboard focus to a window when the pointer is circulated to it.
+.IP 4 4
+Set keyboard focus to a window when it is mapped (displayed).
+.IP 8 4
+Raise a window when the pointer is circulated to it.
+.IP 16 4
+Move the pointer to upper-left corner of a window, when it is focused.
+.IP 32 4
+Set original window border width, which many programs set with "-bw" option, to
+zero automatically, upon mapping the window.
+.IP 64 4
+Redraw frame of active window only.  Active window is a window with the
+keyboard focus, if any, or one with the circulation pointer.  When there is no
+active window, all window frames are redrawn.  Specifying this option
+significantly saves CPU load.  This option is meaningless for alpha particle
+version.
+.IP 128 4
+When a window is to be mapped without user-specified location, place it
+interactively by moving a band for it.  If this option is not specified, the
+window will be placed at where the application specifies.
+.PP
+"Circulated" here means when "next" (\fIn\fP sub-key) or "previous" (\fIp\fP
+sub-key) window operations are executed.
+
+.SH OPERATIONS
+
+Following operation sub-keys are available, with default key binding in
+parenthesis:
+
+.IP \fIm\fP 3
+Trigger move operation (Alt-F8).
+
+.IP \fIr\fP 3
+Trigger resize operation (Alt-F7).
+
+.IP \fIi\fP 3
+Iconify/deiconify a window (Alt-F9).
+
+.IP \fIn\fP 3
+Move the pointer to next window (Alt-Tab).
+
+.IP \fIp\fP 3
+Move the pointer to previous window (Alt-Shift-Tab).
+
+.IP \fIa\fP 3
+Raise a window (Alt-F2).
+
+.IP \fIl\fP 3
+Lower a window (Alt-F3).
+
+.IP \fId\fP 3
+Delete a window, if it defines WM_DELETE_WINDOW protocol (Alt-F4).  If it
+doesn't, it cannot be deleted by heliwm.
+
+.IP \fIt\fP 3
+Terminate heliwm (Control-Shift-Escape).
+
+.IP \fIx\fP 3
+Maximize/unmaximize a window (Alt-F10).  This is available only when heliwm is
+compiled with MAXIMIZE compile time option.
+
+.IP \fIh\fP 3
+Maximize/unmaximize a window horizontally (Alt-F11).  This is available only when heliwm is
+compiled with MAXIMIZE compile time option.
+
+.IP \fIx\fP 3
+Maximize/unmaximize a window vertically (Alt-F12).  This is available only when heliwm is
+compiled with MAXIMIZE compile time option.
+
+.IP \fIo\fP 3
+Reorder internal window management list by bringing a window to the top of the
+list. (Alt-F1).  This is available only when heliwm is compiled with REORDER
+compile time option.
+
+.PP
+Move and resize operations are triggered by pressing a key or a mouse button
+with zero or more optional modifier keys, which are described below.  The
+cursor changes, a band appears to show current position and size of the window,
+and an indicator window appears at the center of the screen.  Use arrow keys
+(up, down, left and right), \fIvi\fP(1) style (k, j, h and l) or \fIemacs\fP(1)
+style (p, n, b and f) cursor movement keys to move or resize the window.
+Holding down a shift key makes the change smaller, while a control key makes it
+even smaller.  Modifier 1 key, if available, makes it larger.  Press Enter key
+or a button to complete the operation.
+
+When a window is iconified for the first time, and interactive placement option
+(128 of "other_options"; see above) is specified, the band shows up for
+placement of the icon.  Use the keys to move it to anywhere you want.
+
+.I n
+operation moves the pointer to upper-left corner of next window in heliwm's
+internal window management list.
+.I p
+operation moves the pointer to previous one.
+
+By using optional reorder operation, it is possible to bring a window to the
+top of the list.
+
+Maximizing a window makes it as large as possible within the size of the
+screen.  When a client has a maximum size set, heliwm admires it, so it is
+impossible to make the window larger than the size.  Similarly, when the client
+has a minimum size set, it is impossible to make the window smaller than that.
+
+.SH MODIFIERS
+
+Following modifiers are available:
+.IP 0 3
+Require no modifier to be pressed.
+.IP 1 3
+Require a shift key to be pressed.
+.IP 2 3
+Require a control key to be pressed.
+.IP 4 3
+Require a modifier 1 key to be pressed.
+.IP 8 3
+Require a modifier 2 key to be pressed.
+.PP
+For example, if you want a modifier 1 key and a shift key to be pressed while
+pressing a key, specify 5 as \fImodifier\fP.  Run \fIxmodmap\fP(1) to see what
+keys are assigned to modifier 1 and 2.
+
+.SH MEMORY AND CPU TIME SAVING TIPS
+
+Compile heliwm without FRAME option to make it alpha particle version.
+
+Avoid wrapping windows as much as possible.  When an obscured part is exposed,
+it has to be redrawn, consuming extra CPU time.  Users of heliwm compiled with
+FRAME option are encouraged to use "redraw frame of active window only" option.
+See the description of option
+.I o
+in section CONFIGURATION.
+
+Use \fIrxvt\fP(1) instead of \fIxterm\fP(1) when possible.
+
+Use text console instead of \fIX\fP(1) or other window systems whenever
+possible.  I developed heliwm mostly on a text console. :-)
+
+.SH FILES
+
+.TP
+/usr/X11R6/lib/X11/heliwm/heliwmrc
+System default run control file.
+.TP
+~/.heliwmrc
+User run control file.
+
+.SH AUTHOR
+
+Hidetoshi Ohtomo <hok@lab.rim.or.jp>
+
+.SH WEB SITE
+
+http://www.cc.rim.or.jp/~hok/heliwm/
+
+.SH DESIGN
+
+Following strategies were taken in order to make the program small and/or
+lessen CPU load:
+
+Window frame drawing, configuration file parser, native language system
+support, shape extension support and window maximizing operation are optional
+(see section COMPILE TIME OPTIONS), to make it possible to minimize heliwm
+according to individual needs.
+
+No intelligent automatic icon placement.  When a window is iconified for the
+first time, the icon is placed at where the upper-left corner of the window is,
+or a user must determine where to place the icon, depending on the specified
+option.
+
+Configuration file is rather cryptographic (like sendmail.cf :-) and its syntax
+is strict to minimize parser module.
+
+Simple frame decoration for FRAME option.
+
+Upon startup, heliwm doesn't check if another window manager is running.  It
+also lacks some safeguards for rare cases.
+
+.SH BUGS
+
+This window manager was named lithiwm at first, but it was soon renamed.
+
+If you find a bug or a way to make the program lighter and/or improved, or
+there is a feature which you want me to add, please contact me by sending an
+email to the address above.  Note: please make sure that you are using the
+latest version, available at the distribution site (see section DISTRIBUTION
+SITE).  You can check version of yours by running heliwm with "-v" option.
+
+.SH LICENSE
+
+Copyright (C) 2000-2006 Hidetoshi Ohtomo
+
+Heliwm is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+Heliwm is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+The license can be obtained by writing to the Free Software Foundation, Inc.,
+59 Temple Place - Suite 330, Boston, MA  02111-1307, USA, or by accessing
+.nf
+http://www.gnu.org/copyleft/gpl.html.
+
+.SH CHEMISTRY
+
+Exact atomic weight is not determined yet, partially because its half-life,
+which some people call "mean time between changes," is short.  But values
+indicated by \fIps\fP(1) and \fIsize\fP(1) show that it is less than others.
+It has several isotopes, which are listed in COMPILE TIME OPTIONS section of
+this manual.  Research is still under progress.  Your help is appreciated.
+
+.SH SEE ALSO
+
+X(1), fvwm(1), rxvt(1), xlsfonts(1), xmodmap(1), xfd(1), showrgb(1),
+\fIperiodic table of the elements\fP
+
+\fILinux Ecology HOWTO\fP by Werner Heuser and Wade W. Hampton
+
+\fIHow to Maximize the Performance of X\fP by Arthur E. Mulder

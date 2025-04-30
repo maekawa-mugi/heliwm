@@ -1,0 +1,110 @@
+Heliwm - Highly Essential Light Itsy-bitsy Window Manager for X
+
+Copyright (C) 2000-2006 Hidetoshi Ohtomo
+
+Heliwm is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2 of the License, or (at your
+option) any later version.
+
+Heliwm is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+
+The license can be obtained by writing to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
+USA, or by accessing http://www.gnu.org/copyleft/gpl.html.
+
+
+- Design Goal
+
+Heliwm is designed and developed to be one of the smallest and
+lightest window managers in the world of X Window System.  I believe
+that saving memory and CPU time contributes to less electricity
+consumption, thus saving natural resources.
+
+
+- Installation Procedure
+
+1. Check DEFINES in Imakefile and modify it when necessary.  There are
+   seven compile time options: FRAME, RCPARSER, SHAPE, NLS, MAXIMIZE,
+   REORDER, VERBOSE.
+
+	FRAME - add frame drawing routine.  Without FRAME, smaller and
+		lighter "alpha particle" version will be produced.
+	RCPARSER - add configuration file (heliwmrc) parser.  Without
+		this option, heliwm can only use its hard-coded
+		configuration information.  To modify those
+		information, edit config.h and keydefs.h.
+	SHAPE - add support for X non-rectangular window shape
+		extension.  There is no need to define this when FRAME
+		is not defined at the same time.
+	NLS - add native language system support for window and icon
+		titles.
+	MAXIMIZE - add optional window maximizing feature.
+	REORDER - add optional window reordering feature.
+	VERBOSE - add debug message output feature.  Use this option
+		only if you want to see what's happening inside
+		heliwm.  Large amount of debug message output,
+		especially during window move and resize operations,
+		can cause X to hang.
+		Note to package makers and distributors: please do not
+		compile heliwm with this option for distribution
+		purposes, because I don't want this fat version being
+		spread over the world.
+
+   Prepend each option with "-D".  For example, if you want FRAME and
+   MAXIMIZE, the line should be "DEFINES=-DFRAME -DMAXIMIZE".  Note
+   that the order is not important.
+
+2. Run "xmkmf".
+3. Run "make".
+4. Run "make install; make install.man" as root.
+
+Here is a little quicker way:
+
+1. Run "xmkmf".
+2. Run "make 'DEFINES=-DRCPARSER -DFRAME -DMAXIMIZE'" or something
+   similar.
+3. Run "make install; make install.man" as root.
+
+
+- Configuration
+
+Read the man page for available configuration options.  Default key
+bindings, which are specified in /usr/X11R6/lib/X11/heliwm/heliwmrc,
+are as follows:
+
+ Alt-Tab	warp pointer to next window in heliwm's list
+ Alt-Shift-Tab	warp pointer to previous window in the list
+ Alt-F1		bring a window to top of the window management list
+ Alt-F2		raise
+ Alt-F3		lower
+ Alt-F4		delete
+ Alt-F7		move
+ Alt-F8		resize
+ Alt-F9		iconify
+ Alt-F10	maximize/unmaximize
+ Alt-F11	maximize/unmaximize horizontally
+ Alt-F12	maximize/unmaximize vertically
+ Control-Shift-Escape	terminate
+
+
+- Bug Fixes and Patches
+
+If you find a bug, a problem, or a way to make the program lighter
+and/or improved, or there is a feature which you want me to add,
+contact me by sending an email to the address below.  Note: please
+make sure that you are using the latest version, which is available
+at:
+
+	http://www.cc.rim.or.jp/~hok/heliwm/
+
+You can check the version of yours by running heliwm with "-v" option.
+
+At last but not least, please don't hesitate to send me your comments.
+
+--
+May this planet continue to be earth as long as possible,
+Hidetoshi Ohtomo <hok@lab.rim.or.jp>

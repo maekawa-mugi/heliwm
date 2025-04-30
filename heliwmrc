@@ -1,0 +1,106 @@
+# heliwmrc - system default configuration file for heliwm
+#
+# Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Hidetoshi Ohtomo
+
+# colors
+#
+#  t  text
+#  f  frame
+#  b  border
+#  u  upper-left shade
+#  l  lower-right shade
+#  a  band
+
+ct black
+cf gray
+cb white
+cu white
+cl DimGray
+ca white
+
+# keyboard and mouse button operation assignments
+#
+# They are registered to structure arrays in the order they appear, so most
+# frequently used ones better be put first.  Available operations are:
+#
+#  m  move	Trigger move operation.
+#  r  resize	Trigger resize operation.
+#  i  iconify	Iconify/deiconify a window.
+#  n  next	Move pointer to next window.
+#  p  previous	Move pointer to previous window.
+#  a  raise	Raise a window.
+#  l  lower	Lower a window.
+#  d  delete	Delete a window, which defines WM_WINDOW_DELETE.
+#  t  terminate	Terminate heliwm.
+#  x  maximize	Maximize/unmaximize a window (available only when
+#		heliwm is compiled with MAXIMIZE option).
+#  h  maximize hofizontally
+#		Maximize/unmaximize a window in horizontal direction only.
+#		(available only when heliwm is compiled with MAXIMIZE option)
+#  v  maximize vertically
+#		Maximize/unmaximize a window in vertical direction only.
+#		(available only when heliwm is compiled with MAXIMIZE option)
+#  o  reorder	Reorder window management list, by bringing a window to the
+#		top.
+#
+# Modifier key values: add ones you want to specify.
+#
+#  0  No modifier is required.
+#  1  Require a shift key to be pressed.
+#  2  Require a control key to be pressed.
+#  4  Require a modifier 1 key to be pressed.
+#  8  Require a modifier 2 key to be pressed.
+#
+# Refer to <X11/keysymdef.h> for available keys, and output of xmodmap(1) for
+# keys assigned to the modifier keys.
+
+kn 4 Tab
+kp 5 Tab
+km 4 F7
+kr 4 F8
+ki 4 F9
+kx 4 F10
+kh 4 F11
+kv 4 F12
+ka 4 F2
+kl 4 F3
+kd 4 F4
+ko 4 F1
+kt 3 Escape
+
+ba 0 1
+bl 0 2
+bi 0 3
+
+# font for window and icon title
+f fixed
+
+# frame width in pixels
+wf 3
+
+# border width in pixels (border for icons and indicator window)
+wb 1
+
+# other options
+#
+# Choose options you want from the following list, and add their corresponding
+# numbers.  If you want none of them, specify 0.
+#
+#  1	Set keyboard focus to a window when it is raised.
+#  2	Set keyboard focus to a window when the pointer is circulated to it
+#	with "next" or "previous" operations.
+#  4	Set keyboard focus to a window when a window is mapped.
+#  8	Raise a window when the pointer is circulated to it.
+#  16	Warp pointer to upper-left corner of a window, when it is focused.
+#  32	Set original window border width, like the one specified with "-bw"
+#	option of xclock(1), to zero automatically.
+#  64	When obscured portions of a frame is exposed, redraw them only when the
+#	window is active.  Effective only when heliwm is compiled with FRAME
+#	option.
+#  128	When a window is to be mapped, place it interactively by moving it.  If
+#	this option is not specified, the window will be placed at where the
+#	application specifies.
+#
+# 1 + 2 + 4 + 8 + 32 = 47
+
+o 47
