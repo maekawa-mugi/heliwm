@@ -6,7 +6,7 @@
  */
 
 #define HOME_CF "~/.heliwmrc"
-#define SYSTEM_CF "/usr/X11R6/lib/X11/heliwm/heliwmrc"
+#define SYSTEM_CF "/usr/lib/X11/heliwm/heliwmrc"
 
 #define DEF_TEXT_COLOR "black"
 #define DEF_FRAME_COLOR	"gray"
