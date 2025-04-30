@@ -33,27 +33,25 @@ static int predefined_buttons = 3;
  */
 
 struct keyop keys[MAX_KEY_DEFINITIONS] = {
-	/* {keycode (don't touch), modifier(s), keysym, operation code} */
+    /* {keycode (don't touch), modifier(s), keysym, operation code} */
 
-	{0, Mod1Mask, XK_Tab, OP_NEXT},
-	{0, Mod1Mask | ShiftMask, XK_Tab, OP_PREV},
-	{0, Mod1Mask, XK_F7, OP_MOVE},
-	{0, Mod1Mask, XK_F8, OP_RESIZE},
-	{0, Mod1Mask, XK_F9, OP_ICONIFY},
-	{0, Mod1Mask, XK_F10, OP_MAXIMIZE},
-	{0, Mod1Mask, XK_F11, OP_MAXIMIZE_H},
-	{0, Mod1Mask, XK_F12, OP_MAXIMIZE_V},
-	{0, Mod1Mask | ShiftMask, XK_F1, OP_REORDER},
-	{0, Mod1Mask, XK_F2, OP_RAISE},
-	{0, Mod1Mask, XK_F3, OP_LOWER},
-	{0, Mod1Mask, XK_F4, OP_DELETE},
-	{0, ShiftMask | ControlMask, XK_Escape, OP_TERMINATE}
-};
+    {0, Mod1Mask, XK_Tab, OP_NEXT},
+    {0, Mod1Mask | ShiftMask, XK_Tab, OP_PREV},
+    {0, Mod1Mask, XK_F7, OP_MOVE},
+    {0, Mod1Mask, XK_F8, OP_RESIZE},
+    {0, Mod1Mask, XK_F9, OP_ICONIFY},
+    {0, Mod1Mask, XK_F10, OP_MAXIMIZE},
+    {0, Mod1Mask, XK_F11, OP_MAXIMIZE_H},
+    {0, Mod1Mask, XK_F12, OP_MAXIMIZE_V},
+    {0, Mod1Mask | ShiftMask, XK_F1, OP_REORDER},
+    {0, Mod1Mask, XK_F2, OP_RAISE},
+    {0, Mod1Mask, XK_F3, OP_LOWER},
+    {0, Mod1Mask, XK_F4, OP_DELETE},
+    {0, ShiftMask | ControlMask, XK_Escape, OP_TERMINATE}};
 
 struct buttonop buttons[MAX_BUTTON_DEFINITIONS] = {
-	/* {modifier(s), button number, operation code} */
+    /* {modifier(s), button number, operation code} */
 
-	{None, Button1, OP_RAISE},
-	{None, Button2, OP_LOWER},
-	{None, Button3, OP_ICONIFY}
-};
+    {None, Button1, OP_RAISE},
+    {None, Button2, OP_LOWER},
+    {None, Button3, OP_ICONIFY}};
